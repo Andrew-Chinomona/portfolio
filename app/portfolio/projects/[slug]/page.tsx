@@ -4,6 +4,7 @@ import { notFound } from "next/navigation"
 import { SiteHeader } from "@/components/site-header"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { AnimateOnScroll } from "@/components/animate-on-scroll"
 import { getProjectBySlug, getOtherProjects, type ProjectItem } from "@/lib/projects"
 import { ExternalLink, ArrowRight } from "lucide-react"
 
@@ -106,9 +107,9 @@ export default async function ProjectDetailPage({
 }) {
   const { slug } = await params
   const project = getProjectBySlug(slug)
-  if (!project) notFound()
+  if (!project || project.isPlaceholder) notFound()
 
-  const otherProjects = getOtherProjects(slug)
+  const otherProjects = getOtherProjects(slug).filter((p) => !p.isPlaceholder)
 
   return (
     <div className="min-h-screen flex flex-col relative overflow-hidden" style={{ backgroundColor: "#000000" }}>
@@ -144,6 +145,7 @@ export default async function ProjectDetailPage({
 
       <main className="flex-1 w-full max-w-5xl mx-auto px-4 md:px-8 pt-24 md:pt-28 pb-12 md:pb-20 relative z-10">
         {/* Hero */}
+        <AnimateOnScroll>
         <section className="space-y-6 mb-20">
           <Badge
             variant="outline"
@@ -211,18 +213,22 @@ export default async function ProjectDetailPage({
             <ProjectHeroImage project={project} />
           </div>
         </section>
+        </AnimateOnScroll>
 
         {/* Problem */}
         {project.problem && (
+          <AnimateOnScroll delay={0.1}>
           <section className="mb-20">
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">PROBLEM :</h2>
             <p className="text-white/90 leading-relaxed max-w-3xl mb-8">{project.problem}</p>
             <SectionImage src={project.problemImage} alt="Problem context" />
           </section>
+          </AnimateOnScroll>
         )}
 
         {/* Solution */}
         {project.solution && (
+          <AnimateOnScroll delay={0.1}>
           <section className="mb-20">
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">SOLUTION :</h2>
             <p className="text-white/90 leading-relaxed max-w-3xl mb-8">{project.solution}</p>
@@ -236,26 +242,32 @@ export default async function ProjectDetailPage({
               <SectionImage src={project.image} alt="Solution" />
             )}
           </section>
+          </AnimateOnScroll>
         )}
 
         {/* Challenge */}
         {project.challenge && (
+          <AnimateOnScroll delay={0.1}>
           <section className="mb-20">
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">CHALLENGE :</h2>
             <p className="text-white/90 leading-relaxed max-w-3xl">{project.challenge}</p>
           </section>
+          </AnimateOnScroll>
         )}
 
         {/* Summary */}
         {project.summary && (
+          <AnimateOnScroll delay={0.1}>
           <section className="mb-20">
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">SUMMARY :</h2>
             <p className="text-white/90 leading-relaxed max-w-3xl mb-8">{project.summary}</p>
             <SectionImage src={project.summaryImage} alt="Summary" />
           </section>
+          </AnimateOnScroll>
         )}
 
         {/* More Projects */}
+        <AnimateOnScroll delay={0.1}>
         <section className="mb-20">
           <h2 className="text-3xl md:text-4xl font-bold text-white text-center mb-12">
             MORE PROJECTS
@@ -281,6 +293,7 @@ export default async function ProjectDetailPage({
             </div>
           )}
         </section>
+        </AnimateOnScroll>
       </main>
     </div>
   )

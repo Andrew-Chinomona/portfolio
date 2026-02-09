@@ -33,21 +33,26 @@ export function SparklesPreview() {
         Get in touch
       </Link>
 
-      {/* Thin line between button and sparkles */}
+      {/* Thin line: full width on sm+, capped on very small screens so it reaches edges */}
       <div
-        className="w-[40rem] h-px pointer-events-none shrink-0"
+        className="w-full min-w-0 max-w-[40rem] sm:max-w-none h-px pointer-events-none shrink-0"
         style={{
           background: "linear-gradient(90deg, transparent 0%, rgba(98, 159, 173, 0.6) 20%, rgba(98, 159, 173, 0.95) 35%, rgba(98, 159, 173, 1) 50%, rgba(98, 159, 173, 0.95) 65%, rgba(98, 159, 173, 0.6) 80%, transparent 100%)",
           boxShadow: "0 0 8px rgba(98, 159, 173, 0.7), 0 0 20px rgba(98, 159, 173, 0.6), 0 0 36px rgba(98, 159, 173, 0.5)",
         }}
       />
 
-      <div className="w-[40rem] h-40 relative overflow-hidden">
+      <div className="w-full min-w-0 max-w-[40rem] sm:max-w-none h-40 relative overflow-hidden">
         {sparkles}
 
-        {/* Soft edge mask */}
-        <div className="absolute inset-0 pointer-events-none 
-          [mask-image:radial-gradient(350px_200px_at_top,transparent_30%,white)]" />
+        {/* Soft edge mask: scales with container width */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            maskImage: "radial-gradient(ellipse 80% 200px at 50% 0%, transparent 30%, white)",
+            WebkitMaskImage: "radial-gradient(ellipse 80% 200px at 50% 0%, transparent 30%, white)",
+          }}
+        />
       </div>
     </div>
   );

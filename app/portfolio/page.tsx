@@ -69,8 +69,8 @@ export default function PortfolioPage() {
 
   return (
     <div className={`flex min-h-screen flex-col overflow-x-hidden m-0 p-0 relative ${montserrat.className}`} style={{ backgroundColor: '#737373' }}>
-      {/* Mobile: Noise BG - black layer beneath GIF, then texture, then two black tint layers */}
-      <div className="block md:hidden absolute inset-0 z-0 rounded-[inherit] pointer-events-none">
+      {/* Mobile / Tablet / iPad: Noise BG - black layer beneath GIF, then texture, then two black tint layers */}
+      <div className="block xl:hidden absolute inset-0 z-0 rounded-[inherit] pointer-events-none">
         <div
           className="absolute inset-0 rounded-[inherit] border-0"
           style={{ backgroundColor: "#000000" }}
@@ -97,24 +97,24 @@ export default function PortfolioPage() {
         />
       </div>
 
-      {/* Mobile: header always visible */}
-      <div className="block md:hidden absolute top-0 left-0 right-0 z-50">
+      {/* Mobile / Tablet / iPad: header always visible */}
+      <div className="block xl:hidden absolute top-0 left-0 right-0 z-50">
         <SiteHeader />
       </div>
-      {/* Desktop: header animates in near video end */}
+      {/* Desktop (xl+): header animates in near video end */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: showHeader ? 1 : 0, y: showHeader ? 0 : -20 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className="hidden md:block absolute top-0 left-0 right-0 z-50"
+        className="hidden xl:block absolute top-0 left-0 right-0 z-50"
       >
         <SiteHeader />
       </motion.div>
 
       <main className="w-full m-0 p-0 relative z-10" style={{ lineHeight: 0 }}>
-        {/* MOBILE HERO - stacked layout with profile circle */}
+        {/* MOBILE / TABLET / IPAD HERO - stacked layout with profile circle */}
         <div
-          className="block md:hidden relative w-full px-6 pt-20 pb-12 min-h-[100dvh] flex flex-col items-center justify-center text-center"
+          className="block xl:hidden relative w-full px-6 pt-20 pb-12 min-h-[100dvh] flex flex-col items-center justify-center text-center"
         >
           <p className="text-white text-sm uppercase tracking-[0.3em] mb-4 font-bold">Andrew Chinomona</p>
 
@@ -185,8 +185,8 @@ export default function PortfolioPage() {
           </div>
         </div>
 
-        {/* DESKTOP HERO - Video Animation */}
-        <div className="hidden md:block relative w-full" style={{ height: '100vh' }}>
+        {/* DESKTOP (xl+) HERO - Video Animation */}
+        <div className="hidden xl:block relative w-full" style={{ height: '100vh' }}>
           <video
             autoPlay
             muted
@@ -261,24 +261,32 @@ export default function PortfolioPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="w-full px-4 md:px-8 lg:px-16 relative"
+            className="w-full px-4 md:px-5 xl:px-8 2xl:px-16 relative"
           >
             {/* Card Component with integrated title */}
             <AboutMeCard>
               <p
-                className={`${montserrat.className} leading-relaxed font-normal`}
+                className={`${montserrat.className} leading-relaxed font-normal text-white`}
                 style={{
-                  color: "#000000",
-                  fontSize: "14px",
-                  lineHeight: "1.5",
+                  fontSize: "clamp(1rem, 2vw, 1.25rem)",
+                  lineHeight: "1.6",
                 }}
               >
-                I'm a Christian who believes in Jesus Christ as my Lord and Savior. I live by
-                the concept of <em>Magis</em>—Latin for "more" or "greater"—embracing the belief
-                that 100% is never quite enough. This drives me to continuously push boundaries,
-                explore emerging technologies, and pursue excellence in everything I do. I'm passionate
-                about solving complex problems and building innovative solutions that make a meaningful impact.
-                I'm currently studying software engineering at Thompson Rivers University.
+                I am a Christian who believes that Jesus Christ came, died for the sins of humanity,
+                and that whoever believes in Him will be saved and gain eternal life. I enjoy making
+                a meaningful difference through software and have a strong interest in cloud engineering.
+                I am currently pursuing the AWS Cloud Practitioner certification through{" "}
+                <a
+                  href="https://aws.amazon.com/education/awseducate/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-normal underline underline-offset-2 hover:opacity-90 transition-opacity"
+                  style={{ color: "#629FAD" }}
+                >
+                  AWS Educate
+                </a>
+                . Outside of software, you&apos;ll find me go-karting, swimming, bungee jumping, or
+                serving on my church&apos;s media team.
               </p>
             </AboutMeCard>
           </motion.div>
@@ -468,8 +476,8 @@ export default function PortfolioPage() {
               Personal Projects
             </motion.h2>
 
-            {/* Mobile: vertical list with always-visible info */}
-            <div className="block md:hidden w-full px-4 space-y-8">
+            {/* Mobile / Tablet / iPad: vertical list with always-visible info */}
+            <div className="block xl:hidden w-full px-4 space-y-8">
               {projects.map((project, index) => (
                 <motion.div
                   key={project.slug}
@@ -511,59 +519,61 @@ export default function PortfolioPage() {
                       className="text-sm line-clamp-2"
                       style={{ color: "rgba(255, 255, 255, 0.9)" }}
                     >
-                      {project.description}
+                      {project.isPlaceholder ? project.hoverText : project.description}
                     </p>
-                    <div className="flex flex-wrap gap-3 pt-1">
-                      <Button
-                        asChild
-                        size="lg"
-                        className="rounded-full bg-white text-black hover:bg-white/90 font-medium text-base min-h-[48px] px-6 py-3"
-                      >
-                        <Link href={`/portfolio/projects/${project.slug}`}>
-                          View details
-                          <ArrowRight className="ml-2 h-5 w-5" />
-                        </Link>
-                      </Button>
-                      {project.liveUrl ? (
+                    {!project.isPlaceholder && (
+                      <div className="flex flex-wrap gap-3 pt-1">
                         <Button
                           asChild
                           size="lg"
-                          variant="outline"
-                          className="rounded-full border-white text-white hover:bg-white/20 font-medium text-base min-h-[48px] px-6 py-3"
+                          className="rounded-full bg-white text-black hover:bg-white/90 font-medium text-base min-h-[48px] px-6 py-3"
                         >
-                          <a
-                            href={project.liveUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            Live project
-                          </a>
+                          <Link href={`/portfolio/projects/${project.slug}`}>
+                            View details
+                            <ArrowRight className="ml-2 h-5 w-5" />
+                          </Link>
                         </Button>
-                      ) : (
-                        <Button
-                          asChild
-                          size="lg"
-                          variant="outline"
-                          className="rounded-full border-white text-white hover:bg-white/20 font-medium text-base min-h-[48px] px-6 py-3"
-                        >
-                          <a
-                            href={project.github}
-                            target="_blank"
-                            rel="noopener noreferrer"
+                        {project.liveUrl ? (
+                          <Button
+                            asChild
+                            size="lg"
+                            variant="outline"
+                            className="rounded-full border-white text-white hover:bg-white/20 font-medium text-base min-h-[48px] px-6 py-3"
                           >
-                            <Github className="mr-2 h-5 w-5" />
-                            GitHub
-                          </a>
-                        </Button>
-                      )}
-                    </div>
+                            <a
+                              href={project.liveUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              Live project
+                            </a>
+                          </Button>
+                        ) : (
+                          <Button
+                            asChild
+                            size="lg"
+                            variant="outline"
+                            className="rounded-full border-white text-white hover:bg-white/20 font-medium text-base min-h-[48px] px-6 py-3"
+                          >
+                            <a
+                              href={project.github}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              <Github className="mr-2 h-5 w-5" />
+                              GitHub
+                            </a>
+                          </Button>
+                        )}
+                      </div>
+                    )}
                   </div>
                 </motion.div>
               ))}
             </div>
 
-            {/* Desktop: carousel with hover overlay */}
-            <div className="hidden md:block relative w-full overflow-hidden max-w-full">
+            {/* Desktop (xl+): carousel with hover overlay */}
+            <div className="hidden xl:block relative w-full overflow-hidden max-w-full">
               <div className="relative max-w-6xl mx-auto w-full space-y-8">
                 {projects.length > 1 && (
                   <>
@@ -636,35 +646,54 @@ export default function PortfolioPage() {
                               className="text-sm md:text-base mb-6 max-w-2xl line-clamp-2 mx-auto"
                               style={{ color: "rgba(255, 255, 255, 0.9)" }}
                             >
-                              {project.description}
+                              {project.isPlaceholder ? project.hoverText : project.description}
                             </p>
-                            <div className="flex flex-wrap justify-center gap-4">
-                              <Button
-                                asChild
-                                size="lg"
-                                className="rounded-full bg-white text-black hover:bg-white/90 font-medium text-base px-6 py-6 h-12"
-                              >
-                                <Link href={`/portfolio/projects/${project.slug}`}>
-                                  View details
-                                  <ArrowRight className="ml-2 h-5 w-5" />
-                                </Link>
-                              </Button>
-                              <Button
-                                asChild
-                                size="lg"
-                                variant="outline"
-                                className="rounded-full border-white text-white hover:bg-white/20 font-medium text-base px-6 py-6 h-12"
-                              >
-                                <a
-                                  href={project.github}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
+                            {!project.isPlaceholder && (
+                              <div className="flex flex-wrap justify-center gap-4">
+                                <Button
+                                  asChild
+                                  size="lg"
+                                  className="rounded-full bg-white text-black hover:bg-white/90 font-medium text-base px-6 py-6 h-12"
                                 >
-                                  <Github className="mr-2 h-5 w-5" />
-                                  GitHub
-                                </a>
-                              </Button>
-                            </div>
+                                  <Link href={`/portfolio/projects/${project.slug}`}>
+                                    View details
+                                    <ArrowRight className="ml-2 h-5 w-5" />
+                                  </Link>
+                                </Button>
+                                {project.liveUrl ? (
+                                  <Button
+                                    asChild
+                                    size="lg"
+                                    variant="outline"
+                                    className="rounded-full border-white text-white hover:bg-white/20 font-medium text-base px-6 py-6 h-12"
+                                  >
+                                    <a
+                                      href={project.liveUrl}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                    >
+                                      Live project
+                                    </a>
+                                  </Button>
+                                ) : (
+                                  <Button
+                                    asChild
+                                    size="lg"
+                                    variant="outline"
+                                    className="rounded-full border-white text-white hover:bg-white/20 font-medium text-base px-6 py-6 h-12"
+                                  >
+                                    <a
+                                      href={project.github}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                    >
+                                      <Github className="mr-2 h-5 w-5" />
+                                      GitHub
+                                    </a>
+                                  </Button>
+                                )}
+                              </div>
+                            )}
                           </div>
                         </div>
                       </motion.div>
@@ -695,33 +724,38 @@ export default function PortfolioPage() {
           </div>
         </section>
 
-        {/* SECTION 5 - Mobile: Sparkles (in-page) */}
-        <section className="block md:hidden w-full overflow-visible">
+        {/* SECTION 5 - Mobile / Tablet / iPad: Sparkles (in-page) */}
+        <section className="block xl:hidden w-full overflow-visible">
           <SparklesPreview />
         </section>
 
-        {/* SECTION 5 - Desktop: Call to Action Card */}
-        <section className="hidden md:flex container py-16 md:py-24 w-full max-w-full overflow-x-hidden justify-center">
-          <div className="max-w-4xl mx-auto w-full flex justify-center">
-            <Card className="backdrop-blur-md border overflow-hidden w-full max-w-2xl" style={{ backgroundColor: 'white', borderColor: '#e5e5e5' }}>
-              <CardContent className="p-8 md:p-12 text-center space-y-6 md:space-y-8">
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold" style={{ color: '#000000' }}>Let&apos;s bring your ideas to life</h2>
-                <p className="text-lg md:text-xl max-w-2xl mx-auto leading-relaxed" style={{ color: '#000000' }}>
-                  I&apos;m available for freelance projects and full-time opportunities.
-                </p>
-                <div className="flex justify-center pt-4">
-                  <Button
-                    size="lg"
-                    variant="outline"
-                    className="rounded-full min-w-[150px]"
-                    style={{ borderColor: '#629FAD', color: '#000000', backgroundColor: 'transparent' }}
-                    asChild
-                  >
-                    <Link href="/contact">Get in Touch</Link>
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+        {/* SECTION 5 - Desktop (xl+): Get in Touch image at bottom with button overlay */}
+        <section className="hidden xl:block w-full pt-4 pb-6 overflow-x-hidden relative" style={{ backgroundColor: "#737373" }}>
+          <div className="w-full max-w-4xl mx-auto px-4 relative">
+            <div
+              className="rounded-2xl overflow-hidden w-full relative"
+              style={{ backgroundColor: "#737373" }}
+            >
+              <Image
+                src="/Black_and_Beige_Simple_Minimalist_Get_in_Touch_Instagram_Post-removebg-preview.png"
+                alt="Get in touch"
+                width={1200}
+                height={630}
+                className="w-full h-auto object-cover block"
+              />
+            </div>
+            <div className="absolute inset-0 flex items-center justify-center rounded-2xl pointer-events-none">
+              <span className="pointer-events-auto">
+                <Button
+                  asChild
+                  size="lg"
+                  className="rounded-full font-semibold px-8 py-6 text-base shadow-lg hover:opacity-90 transition-opacity"
+                  style={{ borderColor: "#629FAD", color: "#000000", backgroundColor: "white" }}
+                >
+                  <Link href="/contact">Get in Touch</Link>
+                </Button>
+              </span>
+            </div>
           </div>
         </section>
       </main>

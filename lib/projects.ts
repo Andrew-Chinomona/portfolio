@@ -9,6 +9,9 @@ export type ProjectItem = {
   demo: string
   /** When set, project is a client project; show "Live Project" instead of GitHub. */
   liveUrl?: string
+  /** Placeholder card with no detail page; hover shows hoverText instead of description + buttons. */
+  isPlaceholder?: boolean
+  hoverText?: string
   // Case study / detail page fields
   year?: string
   industry?: string
@@ -69,8 +72,8 @@ export const projects: ProjectItem[] = [
     tags: ["React", "Django", "TypeScript", "PostgreSQL", "Tailwind CSS", "Vercel", "Railway"],
     image: "/houseofdestinyprofessional.png",
     github: "#",
-    demo: "https://www.houseofdestiny.ca/",
-    liveUrl: "https://www.houseofdestiny.ca/",
+    demo: "https://houseofdestiny.ca",
+    liveUrl: "https://houseofdestiny.ca",
     year: "2024",
     industry: "Faith / Nonprofit",
     client: "House of Destiny Ministries",
@@ -91,6 +94,17 @@ export const projects: ProjectItem[] = [
     problemImage: "/hod-web-hero.png",
     solutionImages: ["/houseofdestinyprofessional.png", "/houseofdestinyprofessional.png"],
     summaryImage: "/houseofdestinyprofessional.png",
+  },
+  {
+    slug: "imagine-cup-2027",
+    name: "Imagine Cup 2027",
+    description: "",
+    tags: [],
+    image: "/33.png",
+    github: "#",
+    demo: "#",
+    isPlaceholder: true,
+    hoverText: "Currently preparing for Imagine Cup 2027",
   },
 ]
 

@@ -126,11 +126,6 @@ export default function TechStackSection() {
         <h2 className={`text-3xl md:text-4xl lg:text-5xl font-bold uppercase tracking-tight ${montserrat.className}`} style={{ color: "#ffffff" }}>
           My Tech Stack
         </h2>
-        <p className="text-base md:text-lg max-w-2xl leading-relaxed font-sans" style={{ color: "rgba(255,255,255,0.9)" }}>
-          I build with intention—choosing tools that streamline workflows, foster collaboration, and deliver
-          high-quality results. From design and development to deployment and database management, here&apos;s
-          the toolkit I rely on.
-        </p>
       </motion.div>
 
       {/* Mobile: accordion with four numbered categories */}
