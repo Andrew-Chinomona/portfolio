@@ -9,8 +9,8 @@ export function SiteFooter() {
       <div className="container max-w-6xl mx-auto py-10 md:py-14 px-4 md:px-0 relative z-10">
         <Card className="bg-[#202021]/70 text-white rounded-3xl border border-white/15 shadow-md md:shadow-lg px-6 md:px-10 py-8 md:py-10 relative overflow-hidden">
           <div className="relative z-10">
-            {/* Mobile: social icons + all rights reserved only */}
-            <div className="flex flex-col items-center gap-6 py-4 md:hidden">
+            {/* Mobile & tablet: social icons + all rights reserved only */}
+            <div className="flex flex-col items-center gap-6 py-4 xl:hidden">
               <div className="flex gap-4">
                 <a
                   href="https://www.instagram.com/a_n_d.r.e_w/"
@@ -52,8 +52,8 @@ export function SiteFooter() {
               </p>
             </div>
 
-            {/* Desktop: full footer */}
-            <div className="hidden md:block">
+            {/* Desktop (xl+): full footer */}
+            <div className="hidden xl:block">
               <div className="grid grid-cols-3 gap-12 items-start">
                 {/* Brand Column */}
                 <div>

@@ -76,7 +76,7 @@ export default function ClientsPage() {
             ) : (
               <div className="grid gap-8 md:gap-10">
                 {clientProjects.map((project) => (
-                  <div key={project.slug} className="space-y-4 md:space-y-0">
+                  <div key={project.slug} className="space-y-0">
                     <div
                       className="group relative w-full overflow-hidden rounded-3xl shadow-xl aspect-[16/10]"
                       style={{
@@ -102,8 +102,8 @@ export default function ClientsPage() {
                         )}
                       </div>
 
-                      {/* Desktop: hover overlay - View details + Live Project */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden md:flex flex-col justify-end items-center text-center p-6 md:p-8 pb-8 md:pb-10">
+                      {/* Desktop (xl): hover overlay - View details + Live Project */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden xl:flex flex-col justify-end items-center text-center p-6 md:p-8 pb-8 md:pb-10">
                         <h3
                           className="text-xl md:text-2xl lg:text-3xl font-bold uppercase tracking-tight mb-2"
                           style={{ color: "#ffffff" }}
@@ -148,9 +148,9 @@ export default function ClientsPage() {
                       </div>
                     </div>
 
-                    {/* Mobile only: two buttons below card */}
-                    <div className="flex flex-col gap-3 md:hidden px-1">
-                      <div className="flex flex-wrap gap-3">
+                    {/* Mobile & tablet: two buttons below card (hidden on xl where hover overlay is used) */}
+                    <div className="flex flex-col gap-4 xl:hidden mt-6 px-0">
+                      <div className="flex flex-wrap gap-4">
                         {project.liveUrl && (
                           <Button
                             asChild

@@ -508,7 +508,7 @@ export default function PortfolioPage() {
                       />
                     )}
                   </div>
-                  <div className="mt-4 px-1 space-y-3">
+                  <div className="mt-5 px-0 space-y-3">
                     <h3
                       className="text-xl font-bold uppercase tracking-tight"
                       style={{ color: "#ffffff" }}
@@ -522,7 +522,7 @@ export default function PortfolioPage() {
                       {project.isPlaceholder ? project.hoverText : project.description}
                     </p>
                     {!project.isPlaceholder && (
-                      <div className="flex flex-wrap gap-3 pt-1">
+                      <div className="flex flex-wrap gap-4 pt-2">
                         <Button
                           asChild
                           size="lg"
