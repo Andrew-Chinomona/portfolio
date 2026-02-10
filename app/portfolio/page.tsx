@@ -49,12 +49,17 @@ export default function PortfolioPage() {
       position: "Software Engineering Intern",
       dates: "01 June 2025 - 31 July 2025",
       achievements: [
-        "Collaborated with team members to troubleshoot and resolve software issues",
-        "Assisted in the design and implementation of user-friendly interfaces",
-        "Participated in daily scrum meetings to discuss project progress and challenges",
-        "Proved successful working within tight deadlines and fast-paced environment",
-        "Demonstrated adaptability by swiftly learning and applying new technologies, tools, and methodologies as needed throughout the internship period",
-        "Worked with developers to identify and remove software bugs",
+        "Built a full-stack Django application end-to-end using PostgreSQL with CRUD, REST APIs, and payment gateway integration, delivering an MVP and a capstone project.",
+        "Developed a natural language chatbot search tool that converts user queries into structured filters to retrieve relevant records from the database.",
+        "Used Git/GitHub for version control, pushing incremental updates at the end of each development unit to keep work traceable and stable.",
+        "Performed Quality Assessments and UI audits across 20+ pages spanning 5 projects, documenting issues with clear reproduction steps and coordinating fixes with 3 engineers.",
+        "Wrote 2 Python scripts to test datasets, reducing repetitive manual validation and improving daily throughput by ~20% through automation and AI-assisted workflow.",
+        "Supported release readiness by preparing and uploading store assets (feature graphic, screenshots, metadata) via the Google Play Console.",
+      ],
+      projectContributions: [
+        "Agripoint and TakeU: Pre-release Quality Assessment audits + Play Store listing asset preparation and submission support.",
+        "Dove: UI polish by validating and improving icons/SVGs for consistency and visual quality.",
+        "INSAF and Langa: Frontend audits to locate UI inconsistencies and bugs.",
       ],
     },
   ]
@@ -311,8 +316,8 @@ export default function PortfolioPage() {
               Experience
             </motion.h2>
 
-            {/* Mobile only: dropdown accordion */}
-            <div className="block lg:hidden w-full space-y-1">
+            {/* Mobile & tablet: dropdown accordion */}
+            <div className="block xl:hidden w-full space-y-1">
               {experiences.map((exp, index) => (
                 <div key={index} className="w-full">
                   <button
@@ -366,7 +371,7 @@ export default function PortfolioPage() {
                               className="p-5 space-y-4"
                               style={{ fontFamily: "Georgia, 'Times New Roman', var(--font-montserrat), Montserrat, serif" }}
                             >
-                              <div className="space-y-1.5">
+                              <div className="flex flex-col space-y-1.5">
                                 <h3 className="text-xl font-semibold" style={{ color: "#ffffff" }}>{exp.position}</h3>
                                 <p className="text-xs" style={{ color: "#ffffff" }}>{exp.dates}</p>
                               </div>
@@ -378,6 +383,19 @@ export default function PortfolioPage() {
                                   </li>
                                 ))}
                               </ul>
+                              {"projectContributions" in exp && exp.projectContributions && exp.projectContributions.length > 0 && (
+                                <>
+                                  <p className="text-sm font-bold text-center pt-2" style={{ color: "#ffffff" }}>Project Contributions</p>
+                                  <ul className="space-y-2">
+                                    {exp.projectContributions.map((item, i) => (
+                                      <li key={i} className="flex items-start gap-2">
+                                        <div className="h-1.5 w-1.5 rounded-full mt-2 flex-shrink-0" style={{ backgroundColor: "#629FAD" }} />
+                                        <span className="text-sm leading-relaxed" style={{ color: "#ffffff" }}>{item}</span>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </>
+                              )}
                             </CardContent>
                           </Card>
                         </div>
@@ -388,8 +406,8 @@ export default function PortfolioPage() {
               ))}
             </div>
 
-            <div className="hidden lg:grid lg:grid-cols-[32%_68%] gap-8 w-full items-start">
-              {/* Left side - Clickable job titles (desktop) */}
+            <div className="hidden xl:grid xl:grid-cols-[32%_68%] gap-8 w-full items-start">
+              {/* Left side - Clickable job titles (desktop xl+) */}
               <div className="space-y-2">
                 {experiences.map((exp, index) => (
                   <button
@@ -441,9 +459,9 @@ export default function PortfolioPage() {
                         className="p-6 md:p-8 space-y-4"
                         style={{ fontFamily: "Georgia, 'Times New Roman', var(--font-montserrat), Montserrat, serif" }}
                       >
-                        <div className="space-y-1.5">
+                        <div className="flex justify-between items-start gap-4">
                           <h3 className="text-2xl md:text-3xl font-semibold" style={{ color: "#000000" }}>{exp.position}</h3>
-                          <p className="text-sm md:text-base" style={{ color: "#000000" }}>{exp.dates}</p>
+                          <p className="text-sm md:text-base shrink-0" style={{ color: "#000000" }}>{exp.dates}</p>
                         </div>
                         <ul className="space-y-2.5">
                           {exp.achievements.map((achievement, i) => (
@@ -453,6 +471,19 @@ export default function PortfolioPage() {
                             </li>
                           ))}
                         </ul>
+                        {"projectContributions" in exp && exp.projectContributions && exp.projectContributions.length > 0 && (
+                          <>
+                            <p className="text-base md:text-lg font-bold text-center pt-2" style={{ color: "#000000" }}>Project Contributions</p>
+                            <ul className="space-y-2.5">
+                              {exp.projectContributions.map((item, i) => (
+                                <li key={i} className="flex items-start gap-2.5">
+                                  <div className="h-1.5 w-1.5 rounded-full mt-2 flex-shrink-0" style={{ backgroundColor: "#629FAD" }} />
+                                  <span className="text-base md:text-lg leading-relaxed" style={{ color: "#000000" }}>{item}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </>
+                        )}
                       </CardContent>
                     </Card>
                   </div>
