@@ -5,6 +5,7 @@ import { SiteHeader } from "@/components/site-header"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { AnimateOnScroll } from "@/components/animate-on-scroll"
+import { ImageWithLightbox } from "@/components/image-lightbox"
 import { getProjectBySlug, getOtherProjects, type ProjectItem } from "@/lib/projects"
 import { ExternalLink, ArrowRight } from "lucide-react"
 
@@ -14,23 +15,63 @@ const BG_DARK = "#0f0f0f"
 function ProjectHeroImage({ project }: { project: ProjectItem }) {
   const heroImages = project.heroImages
   const singleSrc = project.heroImage || project.image
+  const heroVideo = project.heroVideo
+
+  if (heroVideo && (heroImages?.length >= 1 || singleSrc)) {
+    const logoSrc = heroImages?.[0] ?? singleSrc!
+    return (
+      <div className="grid grid-cols-2 gap-4 w-full">
+        <ImageWithLightbox
+          src={logoSrc}
+          alt={`${project.name} — logo`}
+          className="w-full aspect-[16/10] rounded-xl overflow-hidden flex-shrink-0"
+        >
+          <div className="w-full h-full relative rounded-xl overflow-hidden group">
+            <Image
+              src={logoSrc}
+              alt={`${project.name} — logo`}
+              fill
+              className="object-cover group-hover:opacity-90 transition-opacity"
+              unoptimized
+            />
+            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors pointer-events-none" />
+          </div>
+        </ImageWithLightbox>
+        <div className="w-full aspect-[16/10] relative rounded-xl overflow-hidden flex-shrink-0">
+          <video
+            src={heroVideo}
+            controls
+            playsInline
+            className="w-full h-full object-cover rounded-xl"
+          >
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </div>
+    )
+  }
 
   if (heroImages && heroImages.length >= 2) {
     return (
       <div className="grid grid-cols-2 gap-4 w-full">
         {heroImages.slice(0, 2).map((src, i) => (
-          <div
+          <ImageWithLightbox
             key={src}
-            className="w-full aspect-[16/10] relative rounded-xl overflow-hidden flex-shrink-0"
+            src={src}
+            alt={`${project.name} ${i === 0 ? "— product preview" : "— logo"}`}
+            className="w-full aspect-[16/10] rounded-xl overflow-hidden flex-shrink-0"
           >
-            <Image
-              src={src}
-              alt={`${project.name} ${i === 0 ? "— product preview" : "— logo"}`}
-              fill
-              className="object-cover"
-              unoptimized
-            />
-          </div>
+            <div className="w-full h-full relative rounded-xl overflow-hidden group">
+              <Image
+                src={src}
+                alt={`${project.name} ${i === 0 ? "— product preview" : "— logo"}`}
+                fill
+                className="object-cover group-hover:opacity-90 transition-opacity"
+                unoptimized
+              />
+              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors pointer-events-none" />
+            </div>
+          </ImageWithLightbox>
         ))}
       </div>
     )
@@ -47,9 +88,12 @@ function ProjectHeroImage({ project }: { project: ProjectItem }) {
     )
   }
   return (
-    <div className="w-full aspect-[16/10] relative rounded-xl overflow-hidden">
-      <Image src={singleSrc} alt={project.name} fill className="object-cover" unoptimized />
-    </div>
+    <ImageWithLightbox src={singleSrc} alt={project.name} className="w-full aspect-[16/10] rounded-xl overflow-hidden">
+      <div className="w-full h-full relative rounded-xl overflow-hidden group">
+        <Image src={singleSrc} alt={project.name} fill className="object-cover group-hover:opacity-90 transition-opacity" unoptimized />
+        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors pointer-events-none" />
+      </div>
+    </ImageWithLightbox>
   )
 }
 
@@ -65,9 +109,12 @@ function SectionImage({ src, alt }: { src?: string; alt: string }) {
     )
   }
   return (
-    <div className="w-full aspect-video relative rounded-xl overflow-hidden">
-      <Image src={src} alt={alt} fill className="object-cover" unoptimized />
-    </div>
+    <ImageWithLightbox src={src} alt={alt} className="w-full aspect-video rounded-xl overflow-hidden">
+      <div className="w-full h-full relative rounded-xl overflow-hidden group">
+        <Image src={src} alt={alt} fill className="object-cover group-hover:opacity-90 transition-opacity" unoptimized />
+        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors pointer-events-none" />
+      </div>
+    </ImageWithLightbox>
   )
 }
 
@@ -221,21 +268,21 @@ export default async function ProjectDetailPage({
           <section className="mb-20">
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">PROBLEM :</h2>
             <p className="text-white/90 leading-relaxed max-w-3xl mb-8">{project.problem}</p>
-            <SectionImage src={project.problemImage} alt="Problem context" />
+            {project.problemImage && <SectionImage src={project.problemImage} alt="Problem context" />}
           </section>
           </AnimateOnScroll>
         )}
 
-        {/* Solution */}
+        {/* Solution / Modelling */}
         {project.solution && (
           <AnimateOnScroll delay={0.1}>
           <section className="mb-20">
-            <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">SOLUTION :</h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">{project.solutionSectionTitle ?? "SOLUTION"} :</h2>
             <p className="text-white/90 leading-relaxed max-w-3xl mb-8">{project.solution}</p>
             {project.solutionImages && project.solutionImages.length > 0 ? (
-              <div className="grid md:grid-cols-2 gap-6">
+              <div className="grid md:grid-cols-2 gap-4">
                 {project.solutionImages.map((src, i) => (
-                  <SectionImage key={i} src={src} alt={`Solution ${i + 1}`} />
+                  <SectionImage key={i} src={src} alt={project.solutionSectionTitle ? `Modelling ${i + 1}` : `Solution ${i + 1}`} />
                 ))}
               </div>
             ) : (
@@ -261,7 +308,15 @@ export default async function ProjectDetailPage({
           <section className="mb-20">
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">SUMMARY :</h2>
             <p className="text-white/90 leading-relaxed max-w-3xl mb-8">{project.summary}</p>
-            <SectionImage src={project.summaryImage} alt="Summary" />
+            {project.summaryImages && project.summaryImages.length > 0 ? (
+              <div className="grid md:grid-cols-2 gap-4">
+                {project.summaryImages.map((src, i) => (
+                  <SectionImage key={i} src={src} alt={`Summary ${i + 1}`} />
+                ))}
+              </div>
+            ) : (
+              <SectionImage src={project.summaryImage} alt="Summary" />
+            )}
           </section>
           </AnimateOnScroll>
         )}

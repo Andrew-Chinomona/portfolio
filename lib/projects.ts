@@ -12,6 +12,8 @@ export type ProjectItem = {
   /** Placeholder card with no detail page; hover shows hoverText instead of description + buttons. */
   isPlaceholder?: boolean
   hoverText?: string
+  /** Optional link for part of the project name (e.g. "Imagine Cup" -> external URL). */
+  nameLink?: { url: string; label: string }
   // Case study / detail page fields
   year?: string
   industry?: string
@@ -23,9 +25,15 @@ export type ProjectItem = {
   summary?: string
   heroImage?: string
   heroImages?: string[]
+  /** When set, hero shows this video next to the first hero image (e.g. logo left, video right). */
+  heroVideo?: string
   problemImage?: string
   solutionImages?: string[]
+  /** When set, overrides the "Solution" section heading (e.g. "Modelling"). */
+  solutionSectionTitle?: string
   summaryImage?: string
+  /** When set, summary shows these images in a grid instead of summaryImage. */
+  summaryImages?: string[]
   /** Image for "More projects" card; falls back to image if not set */
   cardImage?: string
 }
@@ -38,7 +46,7 @@ export const projects: ProjectItem[] = [
     description:
       "A modern property-discovery and rental platform for Zimbabwe, featuring intelligent search, map-based exploration, and AI-powered recommendations for tenants and host property owners.",
     tags: ["Django", "Python", "Javascript", "PostGIS", "Postgres", "Leaflet", "OpenCage", "Groq llama"],
-    image: "/tourwise.png",
+    image: "/ChatGPT Image Feb 7, 2026, 04_11_59 AM.png",
     github: "https://github.com/Andrew-Chinomona/tourwise",
     demo: "#",
     year: "2025",
@@ -53,10 +61,10 @@ export const projects: ProjectItem[] = [
       "Balancing rich property data and filters with a simple, fast interface was a key challenge. Integrating multiple map and geocoding services while keeping the UX responsive required careful caching and progressive loading. We iterated based on early user feedback to prioritize the features that mattered most for discovery and trust.",
     summary:
       "Tourwise delivers a modern property-discovery experience for Zimbabwe, with map-based search, smart filters, and AI-assisted recommendations. The project demonstrates end-to-end product thinking—from geospatial backend to responsive frontend—and sets a foundation for scaling to more regions and features.",
-    heroImage: "/tourwise.png",
+    heroImage: "/ChatGPT Image Feb 7, 2026, 04_11_59 AM.png",
     heroImages: [
-      "/Gemini_Generated_Image_rkk53nrkk53nrkk5.png",
       "/ChatGPT Image Feb 7, 2026, 04_11_59 AM.png",
+      "/Gemini_Generated_Image_rkk53nrkk53nrkk5.png",
     ],
     problemImage: "/tourwise.png",
     solutionImages: ["/Screenshot 2026-02-07 043833.png", "/Screenshot 2026-02-07 055715.png"],
@@ -96,6 +104,36 @@ export const projects: ProjectItem[] = [
     summaryImage: "/houseofdestinyprofessional.png",
   },
   {
+    slug: "arduino-automated-garage",
+    name: "Arduino Automated Garage",
+    category: "Hardware / IoT",
+    description:
+      "An automated garage system using Arduino, with an IR-equipped car and a cardboard garage prototype featuring ultrasonic sensors, RFID, and servo-controlled access.",
+    tags: ["Arduino", "C/C++", "Ultrasonic", "IR", "RFID", "Servo", "CAD"],
+    image: "/logo-arduino.png",
+    github: "https://github.com/Andrew-Chinomona/arduino-automated-garage",
+    demo: "#",
+    year: "2025",
+    industry: "Education / Maker",
+    client: "Personal Project",
+    projectDuration: "2 months",
+    problem:
+      "Building a hands-on demo for an automated garage required both a vehicle that could be detected and positioned, and a garage structure that could sense the car and control access. The system needed to integrate distance sensing, identification, and actuation (e.g. barrier or door) in a compact, understandable prototype.",
+    solution:
+      "Designed and built an Arduino-based car with an ultrasonic sensor and IR transmitter for positioning and communication, plus a cardboard garage mockup with ultrasonic detection, RFID reader, and a servo for access control. Used CAD for the car and garage structure to plan layout and wiring before assembly.",
+    challenge:
+      "Coordinating multiple sensors (ultrasonic, IR, RFID) and actuators with a single Arduino, while keeping the physical build clear and robust, required careful pin mapping and power management. The cardboard garage had to house the electronics and still leave room for the car to enter.",
+    summary:
+      "The Arduino Automated Garage project demonstrates end-to-end IoT prototyping: from CAD and wiring diagrams to a working physical system with a detectable car and an automated garage with sensing and access control. It showcases integration of sensors, microcontrollers, and simple mechanics in a single project.",
+    heroImage: "/logo-arduino.png",
+    heroImages: ["/logo-arduino.png"],
+    heroVideo: "/arduino-summary (1).mp4",
+    solutionImages: ["/car-wireframe.png", "/cad-design.png"],
+    solutionSectionTitle: "MODELLING",
+    summaryImage: "/cad-design.png",
+    summaryImages: ["/car.jpeg", "/IMG_5522.jpeg"],
+  },
+  {
     slug: "imagine-cup-2027",
     name: "Imagine Cup 2027",
     description: "",
@@ -105,6 +143,7 @@ export const projects: ProjectItem[] = [
     demo: "#",
     isPlaceholder: true,
     hoverText: "Currently preparing for Imagine Cup 2027",
+    nameLink: { url: "https://imaginecup.microsoft.com/en-us", label: "Imagine Cup" },
   },
 ]
 

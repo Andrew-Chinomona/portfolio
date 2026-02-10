@@ -513,13 +513,46 @@ export default function PortfolioPage() {
                       className="text-xl font-bold uppercase tracking-tight"
                       style={{ color: "#ffffff" }}
                     >
-                      {project.name}
+                      {project.nameLink ? (
+                        <>
+                          <a
+                            href={project.nameLink.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="hover:underline"
+                            style={{ color: "#629FAD" }}
+                          >
+                            {project.nameLink.label}
+                          </a>
+                          {" "}{project.name.replace(project.nameLink.label, "").trim()}
+                        </>
+                      ) : (
+                        project.name
+                      )}
                     </h3>
                     <p
                       className="text-sm line-clamp-2"
                       style={{ color: "rgba(255, 255, 255, 0.9)" }}
                     >
-                      {project.isPlaceholder ? project.hoverText : project.description}
+                      {project.isPlaceholder && project.hoverText && project.nameLink && project.hoverText.includes(project.nameLink.label) ? (
+                        <>
+                          {project.hoverText.split(project.nameLink.label)[0]}
+                          <a
+                            href={project.nameLink.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="hover:underline"
+                            style={{ color: "#629FAD" }}
+                          >
+                            {project.nameLink.label}
+                          </a>
+                          {project.hoverText.split(project.nameLink.label)[1]}
+                        </>
+                      ) : project.isPlaceholder ? (
+                        project.hoverText
+                      ) : (
+                        project.description
+                      )}
                     </p>
                     {!project.isPlaceholder && (
                       <div className="flex flex-wrap gap-4 pt-2">
@@ -640,13 +673,46 @@ export default function PortfolioPage() {
                               className="text-xl md:text-2xl lg:text-3xl font-bold uppercase tracking-tight mb-2"
                               style={{ color: "#ffffff" }}
                             >
-                              {project.name}
+                              {project.nameLink ? (
+                                <>
+                                  <a
+                                    href={project.nameLink.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="hover:underline"
+                                    style={{ color: "#629FAD" }}
+                                  >
+                                    {project.nameLink.label}
+                                  </a>
+                                  {" "}{project.name.replace(project.nameLink.label, "").trim()}
+                                </>
+                              ) : (
+                                project.name
+                              )}
                             </h3>
                             <p
                               className="text-sm md:text-base mb-6 max-w-2xl line-clamp-2 mx-auto"
                               style={{ color: "rgba(255, 255, 255, 0.9)" }}
                             >
-                              {project.isPlaceholder ? project.hoverText : project.description}
+                              {project.isPlaceholder && project.hoverText && project.nameLink && project.hoverText.includes(project.nameLink.label) ? (
+                                <>
+                                  {project.hoverText.split(project.nameLink.label)[0]}
+                                  <a
+                                    href={project.nameLink.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="hover:underline"
+                                    style={{ color: "#629FAD" }}
+                                  >
+                                    {project.nameLink.label}
+                                  </a>
+                                  {project.hoverText.split(project.nameLink.label)[1]}
+                                </>
+                              ) : project.isPlaceholder ? (
+                                project.hoverText
+                              ) : (
+                                project.description
+                              )}
                             </p>
                             {!project.isPlaceholder && (
                               <div className="flex flex-wrap justify-center gap-4">
