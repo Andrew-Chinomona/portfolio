@@ -267,7 +267,7 @@ export default async function ProjectDetailPage({
           <AnimateOnScroll delay={0.1}>
           <section className="mb-20">
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">PROBLEM :</h2>
-            <p className="text-white/90 leading-relaxed max-w-3xl mb-8">{project.problem}</p>
+            <p className="text-white/90 leading-relaxed w-full mb-8">{project.problem}</p>
             {project.problemImage && <SectionImage src={project.problemImage} alt="Problem context" />}
           </section>
           </AnimateOnScroll>
@@ -278,7 +278,7 @@ export default async function ProjectDetailPage({
           <AnimateOnScroll delay={0.1}>
           <section className="mb-20">
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">{project.solutionSectionTitle ?? "SOLUTION"} :</h2>
-            <p className="text-white/90 leading-relaxed max-w-3xl mb-8">{project.solution}</p>
+            <p className="text-white/90 leading-relaxed w-full mb-8">{project.solution}</p>
             {project.solutionImages && project.solutionImages.length > 0 ? (
               <div className="grid md:grid-cols-2 gap-4">
                 {project.solutionImages.map((src, i) => (
@@ -297,7 +297,7 @@ export default async function ProjectDetailPage({
           <AnimateOnScroll delay={0.1}>
           <section className="mb-20">
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">CHALLENGE :</h2>
-            <p className="text-white/90 leading-relaxed max-w-3xl">{project.challenge}</p>
+            <p className="text-white/90 leading-relaxed w-full">{project.challenge}</p>
           </section>
           </AnimateOnScroll>
         )}
@@ -307,7 +307,7 @@ export default async function ProjectDetailPage({
           <AnimateOnScroll delay={0.1}>
           <section className="mb-20">
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">SUMMARY :</h2>
-            <p className="text-white/90 leading-relaxed max-w-3xl mb-8">{project.summary}</p>
+            <p className="text-white/90 leading-relaxed w-full mb-8">{project.summary}</p>
             {project.summaryImages && project.summaryImages.length > 0 ? (
               <div className="grid md:grid-cols-2 gap-4">
                 {project.summaryImages.map((src, i) => (

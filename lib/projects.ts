@@ -82,10 +82,10 @@ export const projects: ProjectItem[] = [
     github: "#",
     demo: "https://houseofdestiny.ca",
     liveUrl: "https://houseofdestiny.ca",
-    year: "2024",
-    industry: "Faith / Nonprofit",
+    year: "2025",
+    industry: "Faith",
     client: "House of Destiny Ministries",
-    projectDuration: "Ongoing",
+    projectDuration: "3 months",
     problem:
       "House of Destiny Ministries needed a central online presence to share sermons, post events, collect testimonies, and manage church content. They required an easy-to-use admin portal for staff to upload and organize content without technical expertise.",
     solution:
@@ -106,17 +106,17 @@ export const projects: ProjectItem[] = [
   {
     slug: "arduino-automated-garage",
     name: "Arduino Automated Garage",
-    category: "Hardware / IoT",
+    category: "Hardware",
     description:
       "An automated garage system using Arduino, with an IR-equipped car and a cardboard garage prototype featuring ultrasonic sensors, RFID, and servo-controlled access.",
     tags: ["Arduino", "C/C++", "Ultrasonic", "IR", "RFID", "Servo", "CAD"],
     image: "/logo-arduino.png",
     github: "https://github.com/Andrew-Chinomona/arduino-automated-garage",
     demo: "#",
-    year: "2025",
-    industry: "Education / Maker",
-    client: "Personal Project",
-    projectDuration: "2 months",
+    year: "2024",
+    industry: "Education",
+    client: "Term Project",
+    projectDuration: "3 months",
     problem:
       "Building a hands-on demo for an automated garage required both a vehicle that could be detected and positioned, and a garage structure that could sense the car and control access. The system needed to integrate distance sensing, identification, and actuation (e.g. barrier or door) in a compact, understandable prototype.",
     solution:
