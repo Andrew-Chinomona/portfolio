@@ -17,7 +17,7 @@ function ProjectHeroImage({ project }: { project: ProjectItem }) {
   const singleSrc = project.heroImage || project.image
   const heroVideo = project.heroVideo
 
-  if (heroVideo && (heroImages?.length >= 1 || singleSrc)) {
+  if (heroVideo && ((heroImages?.length ?? 0) >= 1 || singleSrc)) {
     const logoSrc = heroImages?.[0] ?? singleSrc!
     return (
       <div className="grid grid-cols-2 gap-4 w-full">
