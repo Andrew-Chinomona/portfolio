@@ -26,6 +26,7 @@ type Category = {
 
 const TOOLS: Tool[] = [
   { slug: "/icons8-canva-48.png", name: "Canva", description: "Creative design platform for graphics, presentations, and social media content with intuitive drag-and-drop tools.", oneLiner: "Creative design for graphics and social media" },
+  { slug: "/capcut-logo.jpg", name: "CapCut", description: "Video editing app for creating and editing short-form video content with effects, transitions, and templates.", oneLiner: "Video editing for short-form content" },
   { slug: "/icons8-figma-48.png", name: "Figma", description: "Collaborative interface design tool—perfect for wireframing, prototyping, and real-time team collaboration.", oneLiner: "Collaborative UI design and prototyping" },
   { slug: "/icons8-framer-24.png", name: "Framer", description: "Design and publish responsive sites with a visual canvas—from prototypes to production-ready code.", oneLiner: "Visual design and responsive sites" },
   { slug: "tailwindcss", name: "Tailwind CSS", description: "Utility-first CSS framework for rapid UI development with responsive design and consistent styling.", oneLiner: "Utility first CSS framework" },
@@ -52,7 +53,7 @@ const CATEGORIES: Category[] = [
   {
     id: "design",
     title: "Design, UI & CAD Tools",
-    toolNames: ["Canva", "Figma", "Framer", "SolidWorks", "AutoCAD"],
+    toolNames: ["Canva", "CapCut", "Figma", "Framer", "SolidWorks", "AutoCAD"],
   },
   {
     id: "frontend",
