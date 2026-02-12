@@ -43,7 +43,11 @@ const SplitText: React.FC<SplitTextProps> = ({
   style: styleProp,
 }) => {
   const ref = useRef<HTMLParagraphElement>(null)
-  const isInView = useInView(ref, { once: true, amount: threshold, margin: rootMargin })
+  const isInView = useInView(ref, {
+    once: true,
+    amount: threshold,
+    margin: rootMargin as `${number}px` | `${number}%`,
+  })
   const [hasCompleted, setHasCompleted] = useState(false)
 
   const useChars = splitType.includes("chars")
