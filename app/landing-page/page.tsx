@@ -2,6 +2,10 @@
 
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
+import SplitText from "@/components/SplitText"
+import { HeroTerminal } from "@/components/hero-terminal"
+import { MobileServicesSection } from "@/components/mobile-services-section"
+import { ProcessSection } from "@/components/process-section"
 
 export default function LandingPage() {
   return (
@@ -39,14 +43,34 @@ export default function LandingPage() {
       <main className="flex-1 relative z-10">
         {/* Hero Section */}
         <section className="relative overflow-hidden">
-          <div className="container min-h-screen flex items-center justify-center relative z-10">
-            <div className="text-center max-w-5xl mx-auto px-4">
-              <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight leading-tight text-white">
-                Elevate Your Business
-              </h1>
+          <div className="container min-h-screen flex flex-col items-center justify-center relative z-10 gap-6">
+            <div className="text-center max-w-5xl md:max-w-none mx-auto px-4">
+              <SplitText
+                text="Elevate Your Business"
+                tag="h1"
+                className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight leading-tight text-white md:whitespace-nowrap"
+                splitType="chars"
+                delay={50}
+                duration={1.25}
+                from={{ opacity: 0, y: 40 }}
+                to={{ opacity: 1, y: 0 }}
+                threshold={0.1}
+                rootMargin="-100px"
+                textAlign="center"
+              />
+            </div>
+            {/* Terminal below headline */}
+            <div className="w-full max-w-3xl mx-auto px-4">
+              <HeroTerminal />
             </div>
           </div>
         </section>
+
+        {/* Mobile only: Services accordion */}
+        <MobileServicesSection />
+
+        {/* Process Section */}
+        <ProcessSection />
       </main>
 
       <SiteFooter />

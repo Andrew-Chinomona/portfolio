@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { AnimateOnScroll } from "@/components/animate-on-scroll"
 import { ImageWithLightbox } from "@/components/image-lightbox"
-import { getProjectBySlug, getOtherProjects, type ProjectItem } from "@/lib/projects"
+import { getProjectBySlug, getOtherProjects, getClientProjects, type ProjectItem } from "@/lib/projects"
 import { ExternalLink, ArrowRight } from "lucide-react"
 
 const ACCENT_TEAL = "#629FAD"
@@ -156,7 +156,11 @@ export default async function ProjectDetailPage({
   const project = getProjectBySlug(slug)
   if (!project || project.isPlaceholder) notFound()
 
-  const otherProjects = getOtherProjects(slug).filter((p) => !p.isPlaceholder)
+  const isClientProject = !!project.liveUrl
+  const otherProjects = isClientProject
+    ? getClientProjects().filter((p) => p.slug !== slug)
+    : getOtherProjects(slug).filter((p) => !p.isPlaceholder)
+  const showMoreProjectsSection = !isClientProject || otherProjects.length > 0
 
   return (
     <div className="min-h-screen flex flex-col relative overflow-hidden" style={{ backgroundColor: "#000000" }}>
@@ -321,7 +325,8 @@ export default async function ProjectDetailPage({
           </AnimateOnScroll>
         )}
 
-        {/* More Projects */}
+        {/* More Projects: only other client projects when on a client project; hide section if no other clients */}
+        {showMoreProjectsSection && (
         <AnimateOnScroll delay={0.1}>
         <section className="mb-20">
           <h2 className="text-3xl md:text-4xl font-bold text-white text-center mb-12">
@@ -349,6 +354,7 @@ export default async function ProjectDetailPage({
           )}
         </section>
         </AnimateOnScroll>
+        )}
       </main>
     </div>
   )
