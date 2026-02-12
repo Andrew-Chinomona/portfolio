@@ -76,7 +76,7 @@ export function MobileServicesSection() {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null)
 
   return (
-    <section className="md:hidden w-full px-4 py-12 relative z-10">
+    <section className="lg:hidden w-full px-4 py-12 relative z-10">
       <div className="text-center mb-8">
         <SplitText
           text="Services"

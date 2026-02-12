@@ -44,11 +44,11 @@ export default function LandingPage() {
         {/* Hero Section */}
         <section className="relative overflow-hidden">
           <div className="container min-h-screen flex flex-col items-center justify-center relative z-10 gap-6">
-            <div className="text-center max-w-5xl md:max-w-none mx-auto px-4">
+            <div className="text-center max-w-5xl lg:max-w-none mx-auto px-4">
               <SplitText
                 text="Elevate Your Business"
                 tag="h1"
-                className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight leading-tight text-white md:whitespace-nowrap"
+                className="text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-bold tracking-tight leading-tight text-white lg:whitespace-nowrap"
                 splitType="chars"
                 delay={50}
                 duration={1.25}

@@ -105,13 +105,13 @@ const steps: Step[] = [
 export function ProcessSection() {
   return (
     <section className="w-full relative overflow-hidden">
-      <div className="mx-auto max-w-[1600px] px-4 py-16 md:py-24">
+      <div className="mx-auto max-w-[1600px] px-4 py-16 lg:py-24">
         {/* Title above SVG */}
         <div className="text-center mb-10">
           <SplitText
             text="Delivery Process"
             tag="h2"
-            className="text-3xl font-bold uppercase tracking-tight text-white md:text-6xl lg:text-7xl"
+            className="text-3xl font-bold uppercase tracking-tight text-white lg:text-6xl xl:text-7xl"
             splitType="chars"
             delay={40}
             duration={0.8}
@@ -125,7 +125,7 @@ export function ProcessSection() {
 
         {/* Mobile: vertical trail on far left, outline nodes, text to the right */}
         <motion.div
-          className="block md:hidden relative"
+          className="block lg:hidden relative"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-40px" }}
@@ -182,7 +182,7 @@ export function ProcessSection() {
           </div>
         </motion.div>
 
-        <div className="relative w-full overflow-hidden rounded-2xl hidden md:block min-h-[520px] lg:min-h-[600px] xl:min-h-[680px]">
+        <div className="relative w-full overflow-hidden rounded-2xl hidden lg:block min-h-[520px] lg:min-h-[600px] xl:min-h-[680px]">
           {/* Desktop: SVG canvas - hidden on mobile, larger on big screens */}
           <svg
             viewBox="0 0 1366 768"
