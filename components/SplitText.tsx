@@ -1,8 +1,7 @@
 "use client"
 
 import { useRef, useState } from "react"
-import type { JSX } from "react"
-import { motion, useInView } from "framer-motion"
+import { motion, useInView, type Easing } from "framer-motion"
 
 export interface SplitTextProps {
   text: string
@@ -73,7 +72,8 @@ const SplitText: React.FC<SplitTextProps> = ({
     ...styleProp,
   }
 
-  const Tag = tag as keyof JSX.IntrinsicElements
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const Tag = tag as any
 
   if (useChars && chars.length > 0) {
     // Group characters by word so line breaks only happen between words
@@ -123,7 +123,7 @@ const SplitText: React.FC<SplitTextProps> = ({
                     transition={{
                       duration,
                       delay: globalIndex * (delay / 1000),
-                      ease: Array.isArray(ease) ? ease : (ease as string),
+                      ease: ease as Easing | Easing[],
                     }}
                     onAnimationComplete={
                       globalIndex === chars.length - 1 ? handleAnimationComplete : undefined
@@ -156,7 +156,7 @@ const SplitText: React.FC<SplitTextProps> = ({
             transition={{
               duration,
               delay: wi * (delay / 1000),
-              ease: Array.isArray(ease) ? ease : (ease as string),
+              ease: ease as Easing | Easing[],
             }}
             onAnimationComplete={wi === words.length - 1 ? handleAnimationComplete : undefined}
           >
@@ -177,7 +177,7 @@ const SplitText: React.FC<SplitTextProps> = ({
       <motion.span
         initial={from}
         animate={isInView ? to : from}
-        transition={{ duration, ease: Array.isArray(ease) ? ease : (ease as string) }}
+        transition={{ duration, ease: ease as Easing | Easing[] }}
         onAnimationComplete={handleAnimationComplete}
       >
         {text}
