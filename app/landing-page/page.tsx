@@ -5,6 +5,7 @@ import { SiteFooter } from "@/components/site-footer"
 import SplitText from "@/components/SplitText"
 import { HeroTerminal } from "@/components/hero-terminal"
 import { MobileServicesSection } from "@/components/mobile-services-section"
+import { DesktopServicesSection } from "@/components/desktop-services-section"
 import { ProcessSection } from "@/components/process-section"
 
 export default function LandingPage() {
@@ -68,6 +69,9 @@ export default function LandingPage() {
 
         {/* Mobile only: Services accordion */}
         <MobileServicesSection />
+
+        {/* Desktop only: Services grid */}
+        <DesktopServicesSection />
 
         {/* Process Section */}
         <ProcessSection />

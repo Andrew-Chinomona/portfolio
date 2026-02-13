@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useRef, useState } from "react"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { ChevronDown, ChevronUp } from "lucide-react"
@@ -9,6 +9,7 @@ import SplitText from "@/components/SplitText"
 
 const montserrat = Montserrat({ subsets: ["latin"], variable: "--font-montserrat" })
 const TEAL = "#629FAD"
+
 
 type ServiceCard = {
   id: string
@@ -20,7 +21,7 @@ type ServiceCard = {
 
 type ServiceItem =
   | { id: string; title: string; type: "cards"; cards: ServiceCard[] }
-  | { id: string; title: string; type: "contact" }
+  | { id: string; title: string; type: "quote" }
 
 const SERVICES: ServiceItem[] = [
   {
@@ -29,49 +30,201 @@ const SERVICES: ServiceItem[] = [
     type: "cards",
     cards: [
       {
-        id: "website",
-        title: "Website",
-        price: "$399+",
-        tagline: "A clean, fast site that looks premium and converts visitors into leads.",
-        bullets: ["Modern UI", "Mobile-first", "SEO basics", "Contact / lead form"],
+        id: "landing-page",
+        title: "Landing Page",
+        price: "$150",
+        tagline: "A single responsive page that makes a strong first impression.",
+        bullets: ["1 responsive page", "Modern design", "Contact form", "Mobile-first"],
       },
-    ],
-  },
-  {
-    id: "internal",
-    title: "Internal System",
-    type: "cards",
-    cards: [
       {
-        id: "internal-system",
-        title: "Internal System",
-        price: "$899+",
-        tagline: "Dashboards, roles, approvals, and workflows to run your business smoothly.",
-        bullets: ["Admin dashboard", "Role-based access", "Audit-friendly", "Reports"],
+        id: "multi-page",
+        title: "5-Page Website",
+        price: "$500",
+        tagline: "A full site with multiple pages, SEO, and lead generation built in.",
+        bullets: [
+          "5 responsive pages",
+          "SEO optimised",
+          "Contact / lead forms",
+          "CMS integration",
+        ],
+      },
+      {
+        id: "web-app",
+        title: "Web App",
+        price: "$1200",
+        tagline: "A full-featured web application with database, admin portal, and bookings.",
+        bullets: [
+          "Database integration",
+          "Admin portal",
+          "Booking system",
+          "Auth & roles",
+        ],
       },
     ],
   },
   {
     id: "brand",
-    title: "Brand Refresh",
+    title: "Brand Design",
     type: "cards",
     cards: [
       {
         id: "brand-refresh",
         title: "Brand Refresh",
-        price: "Quote",
-        tagline: "Logo, visual identity, and brand guidelines that stand out.",
-        bullets: ["Logo design", "Color & typography", "Brand guidelines", "Asset kit"],
+        price: "$250",
+        tagline: "Update your existing brand — you bring the logos, we refine the rest.",
+        bullets: [
+          "Colour palette update",
+          "Typography refresh",
+          "Brand guidelines",
+          "Asset kit",
+        ],
+      },
+      {
+        id: "brand-creation",
+        title: "Brand Creation",
+        price: "$600",
+        tagline: "Full brand identity from scratch — logo, colours, type, and guidelines.",
+        bullets: [
+          "Logo design",
+          "Colour scheme",
+          "Typography system",
+          "Full brand guidelines",
+        ],
       },
     ],
   },
   {
     id: "custom",
     title: "Custom Software",
-    type: "contact",
+    type: "quote",
   },
 ]
 
+/* ── Map card ID to contact form params ──────────────────────── */
+function getContactParams(cardId: string): { service: string; budget: string } {
+  const mapping: Record<string, { service: string; budget: string }> = {
+    "landing-page": { service: "landing-page", budget: "<200" },
+    "multi-page": { service: "website", budget: "200-500" },
+    "web-app": { service: "web-app", budget: "500-1000" },
+    "brand-refresh": { service: "brand-refresh", budget: "200-500" },
+    "brand-creation": { service: "brand-creation", budget: "500-1000" },
+  }
+  return mapping[cardId] || { service: "", budget: "" }
+}
+
+/* ── Circle check icon ───────────────────────────────────────── */
+function CircleCheckIcon() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="17"
+      height="17"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="shrink-0"
+      style={{ color: TEAL }}
+    >
+      <circle cx="12" cy="12" r="10" />
+      <path d="m9 12 2 2 4-4" />
+    </svg>
+  )
+}
+
+/* ── Horizontal card slider ──────────────────────────────────── */
+function CardSlider({ cards }: { cards: ServiceCard[] }) {
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const [active, setActive] = useState(0)
+
+  const handleScroll = () => {
+    const el = scrollRef.current
+    if (!el) return
+    const cardWidth = el.scrollWidth / cards.length
+    const idx = Math.round(el.scrollLeft / cardWidth)
+    setActive(idx)
+  }
+
+  return (
+    <div>
+      {/* Scrollable row */}
+      <div
+        ref={scrollRef}
+        onScroll={handleScroll}
+        className="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide pt-6 pb-6 -mx-2 px-2"
+        style={{ WebkitOverflowScrolling: "touch" }}
+      >
+        {cards.map((card, i) => (
+          <motion.div
+            key={card.id}
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: 0.05 + i * 0.05 }}
+            className="rounded-3xl p-6 snap-center shrink-0 border-2"
+            style={{
+              borderColor: TEAL,
+              boxShadow: `0 0 12px ${TEAL}, 0 0 20px rgba(98,159,173,0.4), inset 0 0 12px rgba(98,159,173,0.15)`,
+              backgroundColor: "transparent",
+              width: "80vw",
+              maxWidth: 340,
+            }}
+          >
+            {/* Plan name */}
+            <h3 className="text-white text-sm mb-6">{card.title}</h3>
+
+            {/* Price */}
+            <div className="flex items-baseline gap-1 mb-2">
+              <span className="text-[28px] text-white">{card.price}</span>
+            </div>
+            <p className="text-white/70 text-xs mb-8 leading-relaxed">
+              {card.tagline}
+            </p>
+
+            {/* Features */}
+            <ul className="space-y-4 mb-8">
+              {card.bullets.map((feature) => (
+                <li key={feature} className="flex items-center gap-3 text-sm text-white/80">
+                  <CircleCheckIcon />
+                  {feature}
+                </li>
+              ))}
+            </ul>
+
+            {/* CTA */}
+            <Link
+              href={`/contact?service=${getContactParams(card.id).service}&budget=${encodeURIComponent(getContactParams(card.id).budget)}`}
+              className="w-full block text-center cursor-pointer py-3 rounded-full text-white text-sm hover:opacity-95 transition-opacity"
+              style={{
+                background: `radial-gradient(circle at center, ${TEAL} 0%, rgba(98,159,173,0.7) 100%)`,
+              }}
+            >
+              Select option
+            </Link>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Dot indicators */}
+      {cards.length > 1 && (
+        <div className="flex justify-center gap-2 mt-3">
+          {cards.map((_, i) => (
+            <span
+              key={i}
+              className="w-2 h-2 rounded-full transition-colors duration-200"
+              style={{
+                backgroundColor: i === active ? TEAL : "rgba(255,255,255,0.3)",
+              }}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
+/* ── Main section ────────────────────────────────────────────── */
 export function MobileServicesSection() {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null)
 
@@ -132,52 +285,11 @@ export function MobileServicesSection() {
                 className="overflow-hidden"
               >
                 <div className="pb-4 pt-2 px-2">
-                  {service.type === "cards" &&
-                    service.cards.map((card, i) => (
-                      <motion.div
-                        key={card.id}
-                        initial={{ opacity: 0, y: -8 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.3, delay: 0.05 + i * 0.05 }}
-                        className="rounded-2xl border-2 p-5 mb-4 last:mb-0"
-                        style={{
-                          backgroundColor: "transparent",
-                          borderColor: TEAL,
-                        }}
-                      >
-                        <div className="flex items-start justify-between gap-2">
-                          <h3 className="text-lg font-semibold text-white">{card.title}</h3>
-                          <span
-                            className="text-lg font-semibold shrink-0"
-                            style={{ color: TEAL }}
-                          >
-                            {card.price}
-                          </span>
-                        </div>
-                        <p className="mt-2 text-sm text-white/70 leading-relaxed">
-                          {card.tagline}
-                        </p>
-                        <ul className="mt-4 space-y-2">
-                          {card.bullets.map((b) => (
-                            <li
-                              key={b}
-                              className="flex items-center gap-2 text-sm text-white/85"
-                            >
-                              <span
-                                className="w-2 h-2 rounded-full shrink-0"
-                                style={{
-                                  backgroundColor: TEAL,
-                                  boxShadow: `0 0 0 2px rgba(98,159,173,0.2)`,
-                                }}
-                              />
-                              {b}
-                            </li>
-                          ))}
-                        </ul>
-                      </motion.div>
-                    ))}
+                  {service.type === "cards" && (
+                    <CardSlider cards={service.cards} />
+                  )}
 
-                  {service.type === "contact" && (
+                  {service.type === "quote" && (
                     <motion.div
                       initial={{ opacity: 0, y: -8 }}
                       animate={{ opacity: 1, y: 0 }}
@@ -185,7 +297,7 @@ export function MobileServicesSection() {
                       className="pt-2 pb-2 flex justify-center"
                     >
                       <Link
-                        href="/contact"
+                        href="/contact?service=custom-software&budget=1500%2B"
                         className="inline-flex items-center justify-center rounded-full border-2 px-4 py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-90"
                         style={{
                           borderColor: TEAL,
@@ -194,7 +306,7 @@ export function MobileServicesSection() {
                             "0 0 12px rgba(98, 159, 173, 0.6), 0 0 24px rgba(98, 159, 173, 0.3)",
                         }}
                       >
-                        Get in touch
+                        Get a quote
                       </Link>
                     </motion.div>
                   )}
@@ -204,6 +316,12 @@ export function MobileServicesSection() {
           )
         })}
       </div>
+
+      {/* Hide scrollbar across browsers */}
+      <style jsx global>{`
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+      `}</style>
     </section>
   )
 }

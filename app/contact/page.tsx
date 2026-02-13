@@ -2,7 +2,8 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect, Suspense } from "react"
+import { useSearchParams } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -12,16 +13,34 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
 
-export default function ContactPage() {
+function ContactForm() {
+  const searchParams = useSearchParams()
+
+  // Read URL params once on mount (Suspense guarantees they are available)
+  const initialService = searchParams.get("service") ?? ""
+  const initialBudget = searchParams.get("budget") ?? ""
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    projectType: "",
-    budget: "",
+    projectType: initialService,
+    budget: initialBudget,
     message: "",
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle")
+
+  // Keep state in sync if user navigates with different params (e.g. back/forward)
+  useEffect(() => {
+    const service = searchParams.get("service") ?? ""
+    const budget = searchParams.get("budget") ?? ""
+
+    setFormData((prev) => ({
+      ...prev,
+      projectType: service || prev.projectType,
+      budget: budget || prev.budget,
+    }))
+  }, [searchParams])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -63,40 +82,21 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col text-white relative overflow-x-hidden m-0 p-0" style={{ backgroundColor: "#000000" }}>
-      {/* Same as landing: grain noise BG — black layer, GIF texture, two dark tint layers (all viewports) */}
-      <div className="absolute inset-0 z-0 rounded-[inherit] pointer-events-none">
-        <div className="absolute inset-0 rounded-[inherit] border-0" style={{ backgroundColor: "#000000" }} aria-hidden />
-        <div
-          className="absolute inset-0 rounded-[inherit] border-0"
-          style={{
-            backgroundImage: "url(https://framerusercontent.com/images/AVsssNQRylEZc5orEWvz8Q1wQT4.gif?width=500&height=700)",
-            backgroundRepeat: "repeat",
-            backgroundPosition: "left top",
-            backgroundSize: "250px auto",
-          }}
-        />
-        <div className="absolute inset-0 rounded-[inherit] border-0" style={{ backgroundColor: "rgba(0, 0, 0, 0.6)" }} aria-hidden />
-        <div className="absolute inset-0 rounded-[inherit] border-0" style={{ backgroundColor: "rgba(0, 0, 0, 0.6)" }} aria-hidden />
-      </div>
+    <>
+      {/* Contact Section */}
+      <section className="container py-12 md:py-20 pb-16 md:pb-24">
+        <div className="max-w-6xl mx-auto px-4 md:px-6">
+          <div className="space-y-6 md:space-y-8">
+            <div>
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-white uppercase">
+                Let&apos;s work together
+              </h1>
+              <p className="mt-3 text-white/90 text-base md:text-lg max-w-lg">
+                Let&apos;s build something impactful together—whether it&apos;s your brand, your website, or your next big idea.
+              </p>
+            </div>
 
-      <SiteHeader />
-
-      <main className="flex-1 pt-16 md:pt-20 relative z-10">
-        {/* Contact Section */}
-        <section className="container py-12 md:py-20 pb-16 md:pb-24">
-          <div className="max-w-6xl mx-auto px-4 md:px-6">
-            <div className="space-y-6 md:space-y-8">
-                <div>
-                  <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-white uppercase">
-                    Let&apos;s work together
-                  </h1>
-                  <p className="mt-3 text-white/90 text-base md:text-lg max-w-lg">
-                    Let&apos;s build something impactful together—whether it&apos;s your brand, your website, or your next big idea.
-                  </p>
-                </div>
-
-                <form onSubmit={handleSubmit} className="space-y-5 md:space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-5 md:space-y-6">
                   <div className="grid md:grid-cols-2 gap-6">
                     <div className="space-y-2">
                       <Label htmlFor="name" className="text-sm font-medium" style={{ color: "#629FAD" }}>
@@ -133,6 +133,7 @@ export default function ContactPage() {
                         Service Needed ? *
                       </Label>
                       <Select
+                        key={`service-${formData.projectType}`}
                         value={formData.projectType}
                         onValueChange={(value) => handleChange("projectType", value)}
                         required
@@ -141,10 +142,12 @@ export default function ContactPage() {
                           <SelectValue placeholder="Select..." />
                         </SelectTrigger>
                         <SelectContent className="!bg-white border-gray-200 text-black">
-                          <SelectItem value="web-app" className="text-black focus:bg-gray-100">Web Application</SelectItem>
+                          <SelectItem value="landing-page" className="text-black focus:bg-gray-100">Landing Page</SelectItem>
                           <SelectItem value="website" className="text-black focus:bg-gray-100">Website</SelectItem>
-                          <SelectItem value="dashboard" className="text-black focus:bg-gray-100">Dashboard/Internal Tool</SelectItem>
-                          <SelectItem value="ai" className="text-black focus:bg-gray-100">AI Integration</SelectItem>
+                          <SelectItem value="web-app" className="text-black focus:bg-gray-100">Web Application</SelectItem>
+                          <SelectItem value="brand-refresh" className="text-black focus:bg-gray-100">Brand Refresh</SelectItem>
+                          <SelectItem value="brand-creation" className="text-black focus:bg-gray-100">Brand Creation</SelectItem>
+                          <SelectItem value="custom-software" className="text-black focus:bg-gray-100">Custom Software</SelectItem>
                           <SelectItem value="other" className="text-black focus:bg-gray-100">Other</SelectItem>
                         </SelectContent>
                       </Select>
@@ -153,16 +156,17 @@ export default function ContactPage() {
                       <Label htmlFor="budget" className="text-sm font-medium" style={{ color: "#629FAD" }}>
                         Budget Range
                       </Label>
-                      <Select value={formData.budget} onValueChange={(value) => handleChange("budget", value)}>
+                      <Select key={`budget-${formData.budget}`} value={formData.budget} onValueChange={(value) => handleChange("budget", value)}>
                         <SelectTrigger id="budget" className="rounded-lg !bg-white border-gray-300 text-black">
                           <SelectValue placeholder="Select a range" />
                         </SelectTrigger>
                         <SelectContent className="!bg-white border-gray-200 text-black">
+                          <SelectItem value="<200" className="text-black focus:bg-gray-100">&lt; $200</SelectItem>
                           <SelectItem value="200-500" className="text-black focus:bg-gray-100">$200 - $500</SelectItem>
                           <SelectItem value="500-1000" className="text-black focus:bg-gray-100">$500 - $1,000</SelectItem>
-                          <SelectItem value="1000-2000" className="text-black focus:bg-gray-100">$1,000 - $2,000</SelectItem>
-                          <SelectItem value="5000+" className="text-black focus:bg-gray-100">$5,000+</SelectItem>
-                          <SelectItem value="discuss" className="text-black focus:bg-gray-100">Let&apos;s discuss</SelectItem>
+                          <SelectItem value="1000-1500" className="text-black focus:bg-gray-100">$1,000 - $1,500</SelectItem>
+                          <SelectItem value="1500+" className="text-black focus:bg-gray-100">$1,500+</SelectItem>
+                          <SelectItem value="lets-talk" className="text-black focus:bg-gray-100">Let&apos;s talk</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
@@ -274,6 +278,35 @@ export default function ContactPage() {
             </div>
           </div>
         </section>
+    </>
+  )
+}
+
+export default function ContactPage() {
+  return (
+    <div className="flex min-h-screen flex-col text-white relative overflow-x-hidden m-0 p-0" style={{ backgroundColor: "#000000" }}>
+      {/* Same as landing: grain noise BG — black layer, GIF texture, two dark tint layers (all viewports) */}
+      <div className="absolute inset-0 z-0 rounded-[inherit] pointer-events-none">
+        <div className="absolute inset-0 rounded-[inherit] border-0" style={{ backgroundColor: "#000000" }} aria-hidden />
+        <div
+          className="absolute inset-0 rounded-[inherit] border-0"
+          style={{
+            backgroundImage: "url(https://framerusercontent.com/images/AVsssNQRylEZc5orEWvz8Q1wQT4.gif?width=500&height=700)",
+            backgroundRepeat: "repeat",
+            backgroundPosition: "left top",
+            backgroundSize: "250px auto",
+          }}
+        />
+        <div className="absolute inset-0 rounded-[inherit] border-0" style={{ backgroundColor: "rgba(0, 0, 0, 0.6)" }} aria-hidden />
+        <div className="absolute inset-0 rounded-[inherit] border-0" style={{ backgroundColor: "rgba(0, 0, 0, 0.6)" }} aria-hidden />
+      </div>
+
+      <SiteHeader />
+
+      <main className="flex-1 pt-16 md:pt-20 relative z-10">
+        <Suspense fallback={<div className="container py-12 text-white">Loading...</div>}>
+          <ContactForm />
+        </Suspense>
       </main>
 
       <SiteFooter />
